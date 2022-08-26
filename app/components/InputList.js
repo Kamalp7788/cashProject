@@ -1,4 +1,4 @@
-import {StyleSheet, Text, SafeAreaView} from 'react-native';
+import {StyleSheet, Text, SafeAreaView, View, Button} from 'react-native';
 import React, {useState} from 'react';
 import {
   CodeField,
@@ -34,6 +34,14 @@ const InputList = () => {
           </Text>
         )}
       />
+      <Text>{value}</Text>
+      <View style={styles.btn}>
+        <Button
+          title="Submit"
+          color={'#F94144'}
+          disabled={value.length < 6 || !value}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -56,5 +64,8 @@ const styles = StyleSheet.create({
   },
   focusCell: {
     borderColor: '#000',
+  },
+  btn: {
+    marginTop: 28,
   },
 });

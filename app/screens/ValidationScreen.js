@@ -7,11 +7,10 @@ import {
   View,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {Images} from '../utility/Images';
 import InputList from '../components/InputList';
+import {Images} from '../utility/Images';
 
 const ValidationScreen = ({navigation}) => {
-  let CELL_COUNT = 6;
   const [counter, setCounter] = useState(59);
   useEffect(() => {
     const timer =
@@ -31,9 +30,6 @@ const ValidationScreen = ({navigation}) => {
       </View>
       <View style={styles.InputViw}>
         <InputList />
-      </View>
-      <View style={styles.btn}>
-        <Button title="Submit" color={'#F94144'} disabled={!CELL_COUNT} />
       </View>
       <View style={styles.counterView}>
         <Text style={styles.counter}> {counter} seconds</Text>
