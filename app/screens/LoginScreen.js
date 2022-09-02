@@ -1,6 +1,8 @@
 import {
+  Alert,
   Button,
   Image,
+  Keyboard,
   StyleSheet,
   Text,
   TextInput,
@@ -28,18 +30,13 @@ const LoginScreen = () => {
       'Content-Type': 'application/json',
     };
     axios
-      .post('http://172.105.41.247/cashcry/api/v1/login', params, {headers})
+      .post('https://sandbox.cashcry.com/api/v1/login', params, {headers})
       .then(res => {
         console.log(res.data);
         console.log(res.status);
         console.log(res.data.status);
         console.log(res.data.errors);
         if (res.data.status === true) {
-          // ToastAndroid.showWithGravity(
-          //   `You have created: ${JSON.stringify(res.data)}`,
-          //   ToastAndroid.LONG,
-          //   ToastAndroid.TOP,
-          // );
           navigation.navigate('Validate', {paramKey: number});
           // alert(` You have created: ${JSON.stringify(res.data)}`);
         } else {
@@ -55,21 +52,20 @@ const LoginScreen = () => {
         console.log(err);
       });
   };
+  const onChange = text => {
+    let newText = '';
+    let numbers = '0123456789';
 
-  // const onChangeHandler = e => {
-  //   const charCode = e.which ? e.which : e.keyCode;
+    for (var i = 0; i < text.length; i++) {
+      if (numbers.indexOf(text[i]) > -1) {
+        newText = newText + text[i];
+      } else {
+        alert('please enter numbers only');
+      }
+    }
+    setNumber(newText);
+  };
 
-  //   if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-  //     setErrorMessage('OOPs! Only numeric values or digits allowed');
-  //   }
-  // };
-
-  // const onlyNumberKey = event => {
-  //   let ASCIICode = event.which ? event.which : event.keyCode;
-  //   if (ASCIICode >= 48 && ASCIICode <= 57) {
-  //     alert('wrong key');
-  //   }
-  // };
   return (
     <View style={styles.appContainer}>
       <View style={styles.body}>
@@ -93,10 +89,8 @@ const LoginScreen = () => {
           style={styles.txtinput}
           keyboardType="number-pad"
           value={number}
-          onChangeText={value => setNumber(value)}
+          onChangeText={text => onChange(text)}
           maxLength={11}
-          // onChange={onChangeHandler}
-          // onKeyPress={onChangeHandler}
         />
       </View>
       {number.length > 0 && number.length < 10 && (

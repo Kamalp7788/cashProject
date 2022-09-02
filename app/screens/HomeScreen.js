@@ -1,7 +1,15 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+// import CalendarPicker from 'react-native-calendar-picker';
 
-const HomeScreen = ({route}) => {
+const HomeScreen = ({route, navigation}) => {
+  // const [open, setOpen] = useState(false);
+  // const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+  // const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+  // const onDateChange = selectedStartDate => {
+  //   setSelectedStartDate(selectedStartDate);
+  //   setOpen(true);
+  // };
   return (
     <View style={styles.body}>
       <Text style={styles.txt1}>id : {route.params.response.data.id}</Text>
@@ -19,8 +27,11 @@ const HomeScreen = ({route}) => {
       <Text style={styles.txt1}>
         mobile_no : {route.params.response.data.mobile_no}
       </Text>
-      {/* <Text style={styles.txt1}>photo : {route.params.response.data}</Text>
-      <Text style={styles.txt1}>active : {route.params.response.data}</Text> */}
+      {/* <TouchableOpacity>
+        <Text>{startDate}</Text>
+        <CalendarPicker onDateChange={onDateChange} modal open={open} />
+      </TouchableOpacity> */}
+      <Button title="Logout" onPress={() => navigation.navigate('Login')} />
     </View>
   );
 };

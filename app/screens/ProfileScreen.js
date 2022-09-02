@@ -79,11 +79,6 @@ const ProfileScreen = ({route, navigation}) => {
       setEmailValidError('');
     }
   };
-  // const validateName = () => {
-  //   if (errorMessage.length < 0) {
-  //     setErrorMessage('please enter name greate than 5');
-  //   }
-  // };
 
   const formattedDate = moment(date).format('YYYY /MM /DD');
 
@@ -102,21 +97,25 @@ const ProfileScreen = ({route, navigation}) => {
     };
     console.log(headers);
     axios
-      .post('http://172.105.41.247/cashcry/api/v1/profile-update', params, {
+      .post('https://sandbox.cashcry.com/api/v1/profile-update', params, {
         headers,
       })
       .then(res => {
         console.log({Response: res});
         console.log({data: res.data});
         console.log(res.data.status);
-        // console.log(res.data.data);
+        console.log(res.data.data);
         if (res.data.status === true) {
           navigation.navigate('Home', {
             response: res.data,
           });
         } else {
           setErrorMessage1(`${res.data.errors.name[0]}`);
-          // setErrorMessage(validateName());
+          if (name.trim() === '' && email.trim() === '') {
+            setErrorMessage1('please enter name');
+            setErrorMessage2('please enter email');
+            return false;
+          }
         }
       })
       .catch(err => {
@@ -166,7 +165,7 @@ const ProfileScreen = ({route, navigation}) => {
       />
       {/* {emailValidError ? <Text>{emailValidError}</Text> : null} */}
       <Text>{errorMessage1}</Text>
-      {name.length === 0 && name.length < 7 && <Text>please enter name </Text>}
+      {name.length > 0 && name.length < 7 && <Text>please enter name </Text>}
       <InputView
         title={'Email Address'}
         source={Images.mailIcon}
@@ -177,6 +176,7 @@ const ProfileScreen = ({route, navigation}) => {
         }}
       />
       {emailValidError ? <Text>{emailValidError}</Text> : null}
+      <Text>{errorMessage2}</Text>
       <InputView
         title={'Mobile Number'}
         source={Images.mailIcon}
@@ -208,10 +208,7 @@ const ProfileScreen = ({route, navigation}) => {
       <View style={styles.body}>
         <Text>Date of birth </Text>
         <TouchableOpacity onPress={ActionSelectDate}>
-          <Text style={styles.datePicker}>
-            {/* {date.toLocaleDateString()} */}
-            {formattedDate}
-          </Text>
+          <Text style={styles.datePicker}>{formattedDate}</Text>
           <DatePicker
             modal
             open={open}

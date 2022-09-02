@@ -46,27 +46,32 @@ const ValidationScreen = () => {
       'Content-Type': 'application/json',
     };
     axios
-      .post('http://172.105.41.247/cashcry/api/v1/login-otp', params, {headers})
+      .post('https://sandbox.cashcry.com/api/v1/login-otp', params, {headers})
       .then(res => {
         console.log(res.data);
-        // console.log(res.status);
-        // console.log(res.data.status);
+
         console.log(value);
         console.log(res.data.is_register);
-        if (res.data.is_register === true) {
-          navigation.navigate('Profile', {
-            paramKey1: res.data,
-          });
+
+        if (res.data.status === true) {
+          if (res.data.is_register === true) {
+            navigation.navigate('Profile', {
+              paramKey1: res.data,
+            });
+          } else {
+            navigation.navigate('Home', {
+              response: res.data,
+            });
+          }
         } else {
-          navigation.navigate('Home', {
-            response: res.data,
-          });
-          // navigation.navigate('ProfileData', {
-          //   paramKey1: route.params.paramKey,
-          //   paramKey2: res.data,
-          // });
           setErrMessage(`${res.data.errors.otp[0]}`);
         }
+        // setErrMessage(`${res.data.errors.otp[0]}`);
+        // navigation.navigate('ProfileData', {
+        // paramKey1: route.params.paramKey,
+        //   paramKey2: res.data,
+        // });
+        // }
       })
       .catch(err => {
         console.log(err);
@@ -102,7 +107,7 @@ const ValidationScreen = () => {
             </Text>
           )}
         />
-
+        {otp.length > 0 && <Text>otp required</Text>}
         <Text style={styles.errMess}>{errMessage}</Text>
         <View style={styles.btn1}>
           <Button
